@@ -15,6 +15,8 @@ struct CampaignTitle: View {
     
     var titleFont: Font {
         switch family {
+        case .accessoryRectangular:
+            return .headline
         case .systemSmall:
             return .headline
         case .systemMedium:

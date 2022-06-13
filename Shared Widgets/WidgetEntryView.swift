@@ -19,6 +19,8 @@ struct WidgetEntryView : View {
     
     var titleFont: Font {
         switch family {
+        case .accessoryRectangular:
+            return .headline
         case .systemSmall:
             return .headline
         case .systemMedium:
@@ -30,6 +32,8 @@ struct WidgetEntryView : View {
     
     var raisedAmountFont: Font {
         switch family {
+        case .accessoryRectangular:
+            return .title3
         case .systemSmall:
             return .headline
         default:

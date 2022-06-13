@@ -27,6 +27,8 @@ struct EntryView: View {
     
     var titleFont: Font {
         switch family {
+        case .accessoryRectangular:
+            return .headline
         case .systemSmall:
             return .headline
         case .systemMedium:
@@ -38,6 +40,8 @@ struct EntryView: View {
     
     var raisedAmountFont: Font {
         switch family {
+        case .accessoryRectangular:
+            return .title3
         case .systemSmall:
             return .headline
         default:
@@ -46,7 +50,9 @@ struct EntryView: View {
     }
     
     var backgroundColors: [Color] {
-        if useTrueBlackBackground {
+        if isAccessoryRectangularSize(family: family) {
+            return [Color.clear]
+        } else if useTrueBlackBackground {
             return [Color.black]
         } else {
             return [
@@ -62,11 +68,19 @@ struct EntryView: View {
            
             CampaignTitle(name: campaign.name)
              
-            Spacer()
+            if !isAccessoryRectangularSize(family: family) {
+                Spacer()
+            }
+            
             
             if let percentageReached = campaign.percentageReached {
-                ProgressBar(value: .constant(Float(percentageReached)))
-                    .frame(height: 15)
+                if isAccessoryRectangularSize(family: family) {
+                    ProgressBar(value: .constant(Float(percentageReached)))
+                        .frame(height: 5)
+                } else {
+                    ProgressBar(value: .constant(Float(percentageReached)))
+                        .frame(height: 15)
+                }
             }
             VStack(alignment: .leading, spacing: 5) {
                 HStack(alignment: .lastTextBaseline, spacing: 5) {

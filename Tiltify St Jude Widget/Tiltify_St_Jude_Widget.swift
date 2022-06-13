@@ -29,13 +29,14 @@ struct Provider: IntentTimelineProvider, WidgetDataProviding {
 struct Tiltify_St_Jude_Widget: Widget {
     let kind: String = "Tiltify_St_Jude_Widget"
     @StateObject private var apiClient = ApiClient.shared
-    
+        
     var body: some WidgetConfiguration {
         IntentConfiguration(kind: kind, intent: ConfigurationIntent.self, provider: Provider()) { entry in
             WidgetEntryView(entry: entry)
         }
         .configurationDisplayName("Relay FM for St. Jude")
         .description("Displays the current Relay FM for St. Jude fundraising status.")
+        .supportedFamilies(supportedFamilies())
         .onBackgroundURLSessionEvents(matching: ApiClient.backgroundSessionIdentifier) { identifier, completion in
             apiClient.backgroundCompletionHandler = completion
             // Access the background session to make sure it is initialised
@@ -46,6 +47,10 @@ struct Tiltify_St_Jude_Widget: Widget {
 
 struct Tiltify_St_Jude_Widget_Previews: PreviewProvider {
     static var previews: some View {
+        if #available(iOS 16.0, iOSApplicationExtension 16.0, *) {
+            WidgetEntryView(entry: SimpleEntry(date: Date(), configuration: ConfigurationIntent(), campaign: sampleCampaign))
+                .previewContext(WidgetPreviewContext(family: .accessoryRectangular))
+        }
         WidgetEntryView(entry: SimpleEntry(date: Date(), configuration: ConfigurationIntent(), campaign: sampleCampaign))
             .previewContext(WidgetPreviewContext(family: .systemSmall))
         WidgetEntryView(entry: SimpleEntry(date: Date(), configuration: ConfigurationIntent(), campaign: sampleCampaign))
